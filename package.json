@@ -1,0 +1,24 @@
+{
+  "name": "grapher",
+  "version": "1.0.0",
+  "scripts": {
+    "postinstall": "tsc || exit 0",
+    "lint": "eslint src test --fix"
+  },
+  "author": "bks1b",
+  "description": "Tools for visualizing mathematical concepts in 2 and 3 dimensions.",
+  "dependencies": {
+    "katex": "^0.16.0",
+    "three": "^0.143.0",
+    "three-spritetext": "^1.6.5",
+    "webfontloader": "^1.6.28"
+  },
+  "devDependencies": {
+    "@types/katex": "^0.14.0",
+    "@types/three": "^0.143.0",
+    "@types/webfontloader": "^1.6.34",
+    "@typescript-eslint/eslint-plugin": "^5.33.1",
+    "eslint-plugin-import": "^2.26.0",
+    "ts-loader": "^9.3.1"
+  }
+}
