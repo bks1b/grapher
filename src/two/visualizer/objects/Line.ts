@@ -3,7 +3,7 @@ import BaseObject from '../BaseObject';
 import Scene from '../Scene';
 import { SCALE } from '../constants';
 
-const X_PADDING = 0.15;
+const X_PADDING = 0.16;
 const DASH = 0.1;
 
 export class Line extends BaseObject {
@@ -34,7 +34,7 @@ export class Line extends BaseObject {
         this.scene.createLabel(label, (w, h) => {
             const a = Math.atan(Math.abs((this.end[1] - this.start[1]) / ((this.end[0] - this.start[0]) || 1)));
             return [
-                (this.start[0] + this.end[0]) / 2 - Math.cos(a) * w / 2 + X_PADDING * Math.sin(a),
+                (this.start[0] + this.end[0]) / 2 - Math.cos(a) * w / 2 + X_PADDING * (a ? 1 / Math.tan(a) : 0),
                 (this.start[1] + this.end[1]) / 2 - Math.sin(a) * h / 2,
             ];
         });
