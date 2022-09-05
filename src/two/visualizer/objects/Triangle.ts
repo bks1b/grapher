@@ -6,7 +6,7 @@ import { Line } from './Line';
 import { Point } from './Point';
 import { Polygon } from './Polygon';
 
-const RIGHT_SIZE = 0.3;
+const RIGHT_SIZE = 0.2;
 
 const indices = [
     [1, 2],
@@ -41,19 +41,27 @@ export class Triangle extends BaseObject {
         for (let i = 0; i < labels.length; i++) if (labels[i] !== false) this.angles[i].render(<string>labels[i], rad, true);
     }
 
-    renderAltitudes(labels: (string | false)[]) {
-        for (let i = 0; i < labels.length; i++) if (labels[i] !== false) {
-            this.altitudes[i].render({ label: <string>labels[i] });
-            const [x, y] = this.altitudes[i].end;
-            const angle = Math.atan2(...<Coord>[1, 0].map(j => this.sides[i].end[j] - this.sides[i].start[j]));
-            const sin = RIGHT_SIZE * Math.sin(angle);
-            const cos = RIGHT_SIZE * Math.cos(angle);
-            new Polygon(this.scene, [
-                this.altitudes[i].end,
-                [x + sin, y - cos],
-                [x + sin + cos, y + sin - cos],
-                [x + cos, y + sin],
-            ]).render({ stroke: 'black' });
+    renderRightAngle(i: number) {
+        const pt = this.points[i];
+        const pt2 = this.points[(i + 1) % 3];
+        this._renderRightAngle(pt, Math.atan2(pt2[1] - pt[1], pt2[0] - pt[0]));
+    }
+
+    renderAltitudes(data: [(string | false)?, boolean?][]) {
+        for (let i = 0; i < data.length; i++) if (typeof data[i][0] === 'string') {
+            this.altitudes[i].render({ label: <string>data[i][0] });
+            if (data[i][1]) this._renderRightAngle(this.altitudes[i].end, Math.atan2(...<Coord>[1, 0].map(j => this.sides[i].end[j] - this.sides[i].start[j])));
         }
     }
+
+    private _renderRightAngle(coords: Coord, angle: number) {
+        const sin = RIGHT_SIZE * Math.sin(angle);
+        const cos = RIGHT_SIZE * Math.cos(angle);
+        new Polygon(this.scene, [
+            coords,
+            [coords[0] + sin, coords[1] - cos],
+            [coords[0] + sin + cos, coords[1] + sin - cos],
+            [coords[0] + cos, coords[1] + sin],
+        ]).render({ stroke: 'black' });
+    } 
 }
