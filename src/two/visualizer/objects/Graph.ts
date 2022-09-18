@@ -5,17 +5,16 @@ import { GRAPH_STEP } from '../constants';
 import { isUndef } from '../../../util';
 
 const EPSILON = 0.01;
-const MAX_VAL = 4;
 
 export class Graph extends BaseObject {
     absMin: number;
     absMax: number;
     asymptotes: Record<number, boolean> = {};
-    constructor(scene: Scene, private fn: (x: number) => number, range: Coord) {
+    constructor(scene: Scene, private fn: (x: number) => number, range: Coord, maxValue = 4) {
         super(scene);
         for (let x = range[0] - GRAPH_STEP; x <= range[1] + GRAPH_STEP * 2; x += GRAPH_STEP) {
             const y = fn(x);
-            if (!isUndef(y) && Math.abs(y) < MAX_VAL) this.points.push([x, y]);
+            if (!isUndef(y) && Math.abs(y) < maxValue) this.points.push([x, y]);
             else this.asymptotes[x - GRAPH_STEP] = true;
         }
         const vals = this.points.map(x => x[1]);
