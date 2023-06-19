@@ -5,7 +5,7 @@ import BaseGraph from '../BaseGraph';
 import Grapher from '../lib/Grapher';
 import { Fns } from '../types';
 import { getColor } from '../util';
-import complex from '../../../complex';
+import math from '../../../math';
 
 const RAD_TO_DEG = 180 / Math.PI;
 
@@ -60,8 +60,8 @@ export class ComplexScalar extends BaseGraph<'complexScalar', number[], [number[
         this.iterViewport((x, y) => {
             const w = this.fn([x, -y]);
             if (w.some(x => isUndef(x))) return;
-            const mod = complex.mod(w);
-            const arg = complex.arg(w);
+            const mod = math.mod(w);
+            const arg = math.arg(w);
             ctx.beginPath();
             ctx.fillStyle = `hsl(${arg * RAD_TO_DEG + 120} 100% ${this.config.maxLum - (this.config.maxLum - this.config.minLum) / this.config.mod * (Math.log(mod) / this.config.logScale % this.config.mod)}%)`;
             ctx.fillRect(x, y, step, step);
@@ -104,6 +104,6 @@ export class VectorField extends BaseGraph<'vectorField'> {
 
 export class PolyaField extends VectorField {
     constructor(grapher: Grapher, fn: ComplexFunction, config: OptionalConfig<Fns['vectorField']> = {}) {
-        super(grapher, (r, i) => complex.conjugate(fn([r, i])), config);
+        super(grapher, (r, i) => math.conjugate(fn([r, i])), config);
     }
 }

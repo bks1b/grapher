@@ -1,5 +1,6 @@
 import GraphConfig from './GraphConfig';
 import { ComplexFunction, OptionalConfig } from './types';
+import math from './math';
 
 export const EPSILON = 10 ** -10;
 const PRECISION = 2;
@@ -26,10 +27,7 @@ const renderComplexNumber = (z: number[]) => {
     const i = format(z[1]);
     return `${format(z[0])}${i < 0 ? '' : '+'}${i}i`;
 };
-export const getComplexText = (fn: ComplexFunction, w: number[], r: number, i: number, mod: number, arg: number) => {
-    const dr = fn([r + EPSILON, -i]);
-    return `${renderComplexNumber([r, -i])}\\mapsto${renderComplexNumber(w)}\\\\|w|=${format(mod)}\\quad\\arg w=${format(arg)}\\quad\\frac{d}{dz}=${renderComplexNumber([(dr[0] - w[0]) / EPSILON, (dr[1] - w[1]) / EPSILON])}`;
-};
+export const getComplexText = (fn: ComplexFunction, w: number[], r: number, i: number, mod: number, arg: number) => `${renderComplexNumber([r, -i])}\\mapsto${renderComplexNumber(w)}\\\\|w|=${format(mod)}\\quad\\arg w=${format(arg)}\\quad\\frac{d}{dz}=${renderComplexNumber(math.derivative(fn)([r, -i]))}`;
 
 export const sigmoid = (n: number) => 1 / (Math.exp(n) + 1);
 export const positiveSigmoid = (n: number) => 2 / (Math.exp(-n) + 1) - 1;

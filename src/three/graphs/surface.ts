@@ -6,7 +6,7 @@ import BaseGraph from '../BaseGraph';
 import Grapher from '../lib/Grapher';
 import { Coord3, Fns } from '../types';
 import { getColor, mesh } from '../util';
-import complex from '../../complex';
+import math from '../../math';
 
 export class Surface<T = unknown> extends BaseGraph<'surface', Coord3> {
     static key = 'surface';
@@ -98,8 +98,8 @@ export class ComplexScalar extends Surface<{ z: 're' | 'im'; }> {
         const val = this.complexFn([r, -i]);
         if (val.some(x => isUndef(x))) return;
         return {
-            point: [r, i, this.clampZ(val[this.zIndex])],
-            text: getComplexText(this.complexFn, val, r, i, complex.mod(val), complex.arg(val)),
+            point: [r, -i, this.clampZ(val[this.zIndex])],
+            text: getComplexText(this.complexFn, val, r, i, math.mod(val), math.arg(val)),
             obj: this.getPlane(inter),
         };
     }
