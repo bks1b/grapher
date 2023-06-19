@@ -17,7 +17,7 @@ export default class Grapher extends CartesianPlane {
     config!: PlaneConfig & CartesianConfig & GrapherConfig;
     constructor(
         container: HTMLElement,
-        fns: InputFunction<Grapher, BaseGraph<any, any>>,
+        fns: InputFunction<Grapher, BaseGraph<any, any, any>>,
         config: OptionalConfig<GrapherConfig> = {},
         cartesianConfig: OptionalConfig<CartesianConfig> = {},
         planeConfig: OptionalConfig<PlaneConfig> = {},
