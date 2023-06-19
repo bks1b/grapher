@@ -1,7 +1,7 @@
 import { Coord } from '../../types';
 import { BaseVectorConfig } from '../util';
 
-export type PlaneConfig = Record<'zoomRate' | 'initialZoom', number> & { centered: boolean; background: string; };
+export type PlaneConfig = Record<'zoomRate' | 'mobileZoomRate' | 'initialZoom', number> & { centered: boolean; background: string; };
 export type CartesianConfig = { polar: boolean; }
     & Record<'axes' | 'grid' | 'minorGrid', { width: number; color: string; }>
     & {
