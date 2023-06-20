@@ -103,7 +103,7 @@ export default class Grapher extends SceneHelper {
 
     mouseMove(e: MouseEvent) {
         this.cancelMouseMove();
-        this.raycaster.setFromCamera(new Vector2(e.offsetX / this.config.width * 2 - 1, 1 - e.offsetY / this.config.height * 2), this.camera);
+        this.raycaster.setFromCamera(new Vector2(e.offsetX / this.width * 2 - 1, 1 - e.offsetY / this.height * 2), this.camera);
         const data = this.fns.map(fn => {
             const inters = this.raycaster.intersectObject(fn.raycast);
             if (inters.length) return <[Intersection, PointData]>[inters[0], fn.getPoint(inters[0])];

@@ -24,8 +24,6 @@ export type Fns = Record<'cartesian' | 'parametric' |'polar', { color: string; }
         complexScalar: Record<'mod' | 'minLum' | 'maxLum' | 'logScale', number>;
     };
 export type GrapherConfig = {
-    width: number;
-    height: number;
     points: {
         radius: 5;
         color: string;
