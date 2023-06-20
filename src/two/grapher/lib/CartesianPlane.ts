@@ -11,15 +11,15 @@ export default abstract class extends Plane {
         Object.assign(this.config, assignConfig<CartesianConfig>({
             polar: false,
             axes: {
-                width: 2,
+                width: 1.2,
                 color: 'black',
             },
             grid: {
-                width: 1.5,
-                color: '#bbb',
+                width: 0.8,
+                color: '#555',
             },
             minorGrid: {
-                width: 1,
+                width: 0.8,
                 color: '#ddd',
                 density: 5,
                 angleStep: Math.PI / 6,

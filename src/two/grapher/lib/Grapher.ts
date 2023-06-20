@@ -6,6 +6,13 @@ import BaseGraph from '../BaseGraph';
 import { CartesianConfig, GrapherConfig, PlaneConfig, Point } from '../types';
 import CartesianPlane from './CartesianPlane';
 
+const DEFAULT_CONFIG = {
+    lineWidth: 3,
+    color: '#2d70b3',
+    maxSlope: 500,
+    step: 0.01,
+};
+
 export default class Grapher extends CartesianPlane {
     rendered = false;
     latexContainer: LatexContainer;
@@ -37,44 +44,32 @@ export default class Grapher extends CartesianPlane {
                 zeroes: {
                     show: true,
                     round: 1.5,
-                    maxVal: 0.02,
-                    minSlope: 0.1,
+                    maxVal: 0.015,
+                    minSlope: 0.05,
                 },
                 turningPoints: {
-                    show: true,
+                    show: false,
                     round: 1,
                     maxSlope: 0.03,
                     minCurvature: 0.2,
                 },
                 intersections: {
-                    show: true,
+                    show: false,
+                    round: 1,
                     maxDistance: 0.15,
                     minSlopeDiff: 0.4,
-                    round: 1,
                 },
             },
             fns: {
                 cartesian: {
-                    step: 1,
-                    lineWidth: 1.5,
+                    ...DEFAULT_CONFIG,
+                    step: 0.8,
                     inverse: false,
-                    maxSlope: 150,
-                    color: 'black',
                 },
-                parametric: {
-                    step: 0.02,
-                    lineWidth: 1.5,
-                    maxSlope: 150,
-                    color: 'black',
-                },
-                polar: {
-                    step: 0.02,
-                    lineWidth: 1.5,
-                    maxSlope: 150,
-                    color: 'black',
-                },
+                parametric: DEFAULT_CONFIG,
+                polar: DEFAULT_CONFIG,
                 inequality: {
-                    step: 4,
+                    step: 7,
                     color: 'red',
                     opacity: 0.5,
                 },
@@ -92,7 +87,7 @@ export default class Grapher extends CartesianPlane {
                     height: 10,
                 },
                 complexScalar: {
-                    step: 4,
+                    step: 7,
                     opacity: 0.8,
                     mod: 1,
                     minLum: 65,
