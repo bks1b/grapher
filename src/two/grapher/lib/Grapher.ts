@@ -16,15 +16,13 @@ export default class Grapher extends CartesianPlane {
     otherPoints!: Record<string, [Point, number][]>;
     config!: PlaneConfig & CartesianConfig & GrapherConfig;
     constructor(
-        container: HTMLElement,
+        private container: HTMLElement,
         fns: InputFunction<Grapher, BaseGraph<any, any, any>>,
         config: OptionalConfig<GrapherConfig> = {},
         cartesianConfig: OptionalConfig<CartesianConfig> = {},
         planeConfig: OptionalConfig<PlaneConfig> = {},
     ) {
         const c = document.createElement('canvas');
-        c.width = config.width!;
-        c.height = config.height!;
         container.appendChild(c);
         super(c, cartesianConfig, planeConfig);
         Object.assign(this.config, assignConfig<GrapherConfig>({
@@ -107,6 +105,15 @@ export default class Grapher extends CartesianPlane {
         this.latexContainer = new LatexContainer(container);
         this.fns = fns.map(f => f(this));
         requestAnimationFrame(() => this.forceRender());
+        this.resize();
+    }
+
+    resize(r = true) {
+        const rect = this.container.getBoundingClientRect();
+        this.element.width = rect.width;
+        this.element.height = rect.height;
+        if (r) this.resize(false);
+        else this.forceRender();
     }
 
     render() {

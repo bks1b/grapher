@@ -37,7 +37,7 @@ export type HelperConfig = {
         & { fontColor: string; color: ColorType; };
 } & Record<'xRange' | 'yRange', Coord> & { vectors: VectorConfig; crossProducts: { opacity: number; color: ColorType; }; };
 
-export type BaseConfig = Record<'fov' | 'near' | 'far' | 'width' | 'height', number> & { background: ColorType; position: Coord3; };
+export type BaseConfig = Record<'fov' | 'near' | 'far', number> & { background: ColorType; position: Coord3; };
 
 export type BaseVectorConfig = {
     lineWidth: number;

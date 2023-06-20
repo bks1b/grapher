@@ -9,6 +9,8 @@ export default class {
     renderer = new WebGLRenderer();
     camera: PerspectiveCamera;
     config: BaseConfig;
+    width = 0;
+    height = 0;
     constructor(protected container: HTMLElement, config: OptionalConfig<BaseConfig> = {}) {
         this.config = assignConfig<BaseConfig>({
             fov: 75,
@@ -18,14 +20,12 @@ export default class {
             position: [0, 1, 3],
         }, config);
         this.camera = new PerspectiveCamera(this.config.fov, 1, this.config.near, this.config.far);
-        this.camera.aspect = config.width! / config.height!;
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize(config.width!, config.height!);
         this.renderer.setClearColor(this.config.background, 1);
         this.camera.position.set(...<Coord3>this.config.position);
         new OrbitControls(this.camera, this.renderer.domElement);
         this.renderer.domElement.style.display = '';
         container.appendChild(this.renderer.domElement);
+        this.resize();
         window.addEventListener('mousemove', e => {
             if (e.target === this.renderer.domElement) this.mouseMove?.(e);
             else this.cancelMouseMove?.();
@@ -35,6 +35,18 @@ export default class {
             requestAnimationFrame(render);
         };
         requestAnimationFrame(render);
+    }
+
+    resize(r = true) {
+        const { width, height } = this.container.getBoundingClientRect();
+        this.width = width;
+        this.height = height;
+        this.renderer.setSize(width, height);
+        if (r) this.resize(false);
+        else {
+            this.camera.aspect = width / height;
+            this.camera.updateProjectionMatrix();
+        }
     }
 
     mouseMove?(e: MouseEvent): void;
