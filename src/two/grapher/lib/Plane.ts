@@ -38,7 +38,7 @@ export default abstract class extends CanvasHelper {
             lastPos = this.getMouseCoords(e);
             pointers.push(e);
         });
-        window.addEventListener('pointermove', e => {
+        this.element.addEventListener('pointermove', e => {
             if (e.target !== this.element) return this.cancelMouseMove?.();
             if (pointers.length === 2) {
                 pointers[pointers.findIndex(p => p.pointerId === e.pointerId)] = e;
