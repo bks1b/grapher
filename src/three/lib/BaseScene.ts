@@ -26,7 +26,7 @@ export default class {
         this.renderer.domElement.style.display = '';
         container.appendChild(this.renderer.domElement);
         this.resize();
-        window.addEventListener('mousemove', e => {
+        this.renderer.domElement.addEventListener('mousemove', e => {
             if (e.target === this.renderer.domElement) this.mouseMove?.(e);
             else this.cancelMouseMove?.();
         });
