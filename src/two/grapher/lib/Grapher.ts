@@ -1,5 +1,5 @@
 import { LatexContainer } from '../../../katex';
-import { InputFunction, OptionalConfig } from '../../../types';
+import { Coord, InputFunction, OptionalConfig } from '../../../types';
 import { assignConfig } from '../../../util';
 import { findSmallest } from '../../util';
 import BaseGraph from '../BaseGraph';
@@ -154,7 +154,7 @@ export default class Grapher extends CartesianPlane {
 
     mouseMove(e: MouseEvent) {
         const { ctx, transform: { scalar: scale } } = this;
-        const mouse = this.transform.toCanvas(...this.getMouseCoords(e));
+        const mouse = this.transform.toCanvas(...<Coord>this.getMouseCoords(e).map(x => x / window.devicePixelRatio));
         const mouseDist = (p: Point) => Math.hypot(p.x - mouse[0], p.y - mouse[1]);
         const closestH = findSmallest(this.highlightedPoints, mouseDist);
         const closestPt = findSmallest(this.fns.flatMap(f => f.points), mouseDist);
