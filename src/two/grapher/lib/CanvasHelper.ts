@@ -32,7 +32,7 @@ export default abstract class {
     }
 
     getMouseCoords(e: MouseEvent) {
-        return <Coord>[e.offsetX, e.offsetY];
+        return <Coord>[e.offsetX * window.devicePixelRatio, e.offsetY * window.devicePixelRatio];
     }
 
     abstract onTransform?(): any;
