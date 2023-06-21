@@ -8,7 +8,7 @@ const factorials = [1];
 const math = {
     derivative: (f: (z: C) => C, n = 1) => (z: C) => {
         let r = [0, 0];
-        for (let i = 0; i <= n; i++) r = math.add(r, math.scale(f(math.add(z, [(n - i) * EPSILON, 0])), math.binom([n, 0], i)[0] * (i % 2 === 0 ? 1 : -1) * EPSILON ** -n));
+        for (let i = 0; i <= n; i++) r = math.add(r, math.scale(f(math.add(z, [(n - i) * EPSILON ** (1 / n), 0])), math.binom([n, 0], i)[0] * (i % 2 === 0 ? 1 : -1) / EPSILON));
         return r;
     },
     e: [Math.E, 0],
@@ -53,7 +53,7 @@ const math = {
         const t = math.add(z, [GAMMA_N - 0.5, 0]);
         return math.scale(math.multiply(math.pow(t, math.subtract(z, [0.5, 0])), math.multiply(math.exp(math.neg(t)), x)), Math.sqrt(2 * Math.PI));
     },
-    polygamma: (z: C, n: number) => math.derivative(s => math.ln(math.gamma(s)), n)(z),
+    polygamma: (z: C, n: number) => math.derivative(s => math.ln(math.gamma(s)), n + 1)(z),
     harmonic: (z: C) => math.subtract(math.polygamma(math.add(z, [1, 0]), 1), math.polygamma([1, 0], 1)),
     bernoulli: (z: C, n: number) => {
         let r = [0, 0];
