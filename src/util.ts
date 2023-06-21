@@ -5,7 +5,7 @@ import math from './math';
 export const EPSILON = 10 ** -10;
 const PRECISION = 2;
 
-export const assignConfig = <T>(def: OptionalConfig<T>, obj: OptionalConfig<T> = <OptionalConfig<T>>{}): T => <any>({
+export const assignConfig = <T extends object>(def: OptionalConfig<T>, obj: OptionalConfig<T> = <OptionalConfig<T>>{}): T => <any>({
     ...obj,
     ...Object.fromEntries(Object.entries(def).flatMap(x => {
         const k = <keyof typeof obj>x[0].replace(/^_/, '');
