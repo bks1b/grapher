@@ -32,8 +32,9 @@ export class LatexContainer {
     async render(text: string, x: number, y: number) {
         this.element.style.display = '';
         const [w, h] = await renderLatex(text, this.element, 4);
-        this.element.style.left = x - w / 2 + 'px';
-        this.element.style.top = y + h / 2 + 'px';
+        this.element.style.left = x - w / 2 * window.devicePixelRatio + 'px';
+        this.element.style.top = y + h - h / 2 * window.devicePixelRatio + 'px';
+        this.element.style.scale = 1 / window.devicePixelRatio + '';
     }
 
     hide() {

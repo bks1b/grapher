@@ -60,10 +60,10 @@ export default class Transform {
     }
 
     toScreen(x: number, y: number) {
-        return <Coord>[this.xOffset + x * this.scalar, this.yOffset + y * this.scalar];
+        return <Coord>[(this.xOffset + x * this.scalar) / window.devicePixelRatio, (this.yOffset + y * this.scalar) / window.devicePixelRatio];
     }
 
     toCanvas(x: number, y: number) {
-        return <Coord>[(x - this.xOffset) / this.scalar, (y - this.yOffset) / this.scalar];
+        return <Coord>[(x * window.devicePixelRatio - this.xOffset) / this.scalar, (y * window.devicePixelRatio - this.yOffset) / this.scalar];
     }
 }
