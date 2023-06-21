@@ -34,6 +34,11 @@ export default abstract class extends CanvasHelper {
         let lastPos: Coord | undefined;
         let pointers: PointerEvent[] = [];
         let lastDist = 0;
+        const pointerCancel = (e: PointerEvent) => {
+            lastPos = undefined;
+            pointers = pointers.filter(p => p.pointerId !== e.pointerId);
+            lastDist = 0;
+        };
         this.element.addEventListener('pointerdown', e => {
             lastPos = this.getMouseCoords(e);
             pointers.push(e);
@@ -42,8 +47,10 @@ export default abstract class extends CanvasHelper {
             if (e.target !== this.element) return this.cancelMouseMove?.();
             if (pointers.length === 2) {
                 pointers[pointers.findIndex(p => p.pointerId === e.pointerId)] = e;
-                const dist = Math.hypot(pointers[0].offsetX - pointers[1].offsetX, pointers[0].offsetY - pointers[1].offsetY);
-                if (lastDist) this.zoom((pointers[0].offsetX + pointers[1].offsetX) / 2, (pointers[0].offsetY + pointers[1].offsetY) / 2, this.config.mobileZoomRate ** (dist - lastDist));
+                const [x1, y1] = this.getMouseCoords(pointers[0]);
+                const [x2, y2] = this.getMouseCoords(pointers[1]);
+                const dist = Math.hypot(x1 - x2, y1 - y2);
+                if (lastDist) this.zoom((x1 + x2) / 2, (y1 + y2) / 2, this.config.mobileZoomRate ** (dist - lastDist));
                 lastDist = dist;
             } else if (lastPos) {
                 const coords = this.getMouseCoords(e);
@@ -52,11 +59,8 @@ export default abstract class extends CanvasHelper {
                 this.forceRender?.();
             } else this.mouseMove?.(e);
         });
-        this.element.addEventListener('pointerup', e => {
-            lastPos = undefined;
-            pointers = pointers.filter(p => p.pointerId !== e.pointerId);
-            lastDist = 0;
-        });
+        this.element.addEventListener('pointerup', pointerCancel);
+        this.element.addEventListener('pointercancel', pointerCancel);
         this.element.addEventListener('wheel', e => {
             e.preventDefault();
             this.zoom(...this.getMouseCoords(e), this.config.zoomRate ** -Math.sign(e.deltaY));

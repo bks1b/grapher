@@ -105,8 +105,10 @@ export default class Grapher extends CartesianPlane {
 
     resize(r = true) {
         const rect = this.container.getBoundingClientRect();
-        this.element.width = rect.width;
-        this.element.height = rect.height;
+        this.element.width = rect.width * window.devicePixelRatio;
+        this.element.height = rect.height * window.devicePixelRatio;
+        this.element.style.width = rect.width + 'px';
+        this.element.style.height = rect.height + 'px';
         if (r) this.resize(false);
         else this.forceRender();
     }

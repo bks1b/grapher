@@ -54,7 +54,7 @@ const math = {
         return math.scale(math.multiply(math.pow(t, math.subtract(z, [0.5, 0])), math.multiply(math.exp(math.neg(t)), x)), Math.sqrt(2 * Math.PI));
     },
     polygamma: (z: C, n: number) => math.derivative(s => math.ln(math.gamma(s)), n + 1)(z),
-    harmonic: (z: C) => math.subtract(math.polygamma(math.add(z, [1, 0]), 1), math.polygamma([1, 0], 1)),
+    harmonic: (z: C) => math.subtract(math.polygamma(math.add(z, [1, 0]), 0), math.polygamma([1, 0], 0)),
     bernoulli: (z: C, n: number) => {
         let r = [0, 0];
         for (let k = 0; k <= n; k++) for (let j = 0; j <= k; j++) r = math.add(r, math.scale(math.pow(math.add(z, [j, 0]), [n, 0]), (j % 2 === 0 ? 1 : -1) * math.binom([k, 0], j)[0] / (k + 1)));

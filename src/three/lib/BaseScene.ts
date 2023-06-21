@@ -41,7 +41,9 @@ export default class {
         const { width, height } = this.container.getBoundingClientRect();
         this.width = width;
         this.height = height;
-        this.renderer.setSize(width, height);
+        this.renderer.setSize(width * window.devicePixelRatio, height * window.devicePixelRatio);
+        this.renderer.domElement.style.width = width + 'px';
+        this.renderer.domElement.style.height = height + 'px';
         if (r) this.resize(false);
         else {
             this.camera.aspect = width / height;
