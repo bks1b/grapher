@@ -81,16 +81,17 @@ export class Scalar extends Surface {
     }
 }
 
-export class ComplexScalar extends Surface<{ z: 're' | 'im'; }> {
-    zIndex: number;
-    cIndex: number;
-    constructor(grapher: Grapher, private complexFn: ComplexFunction, config: OptionalConfig<Fns['surface'] & { z: 're' | 'im'; }> = {}) {
-        super(grapher, (r, i) => [r, i, complexFn([r, i])[this.zIndex]], <Fns['surface']>{ ...config, z: config.z || 're' });
-        [this.zIndex, this.cIndex] = this.config.z === 're' ? [0, 1] : [1, 0];
+export class ComplexScalar extends Surface<{ z: 're' | 'im' | 'mod'; }> {
+    constructor(grapher: Grapher, private complexFn: ComplexFunction, config: OptionalConfig<Fns['surface'] & { z: 're' | 'im' | 'mod'; }> = {}) {
+        super(grapher, (r, i) => [r, i, this.getValue(complexFn([r, i]))], <Fns['surface']>{ ...config, z: config.z || 'mod' });
+    }
+
+    getValue(val: number[], s: 're' | 'im' = 'im') {
+        return this.config.z === 'mod' ? math.mod(val) : val[+(this.config.z === s)];
     }
 
     getColor(c: Coord3) {
-        return this.complexFn([c[0], c[1]])[this.cIndex];
+        return this.getValue(this.complexFn([c[0], c[1]]), 're');
     }
 
     getPoint(inter: Intersection) {
@@ -98,7 +99,7 @@ export class ComplexScalar extends Surface<{ z: 're' | 'im'; }> {
         const val = this.complexFn([r, -i]);
         if (val.some(x => isUndef(x))) return;
         return {
-            point: [r, -i, this.clampZ(val[this.zIndex])],
+            point: [r, -i, this.clampZ(this.getValue(val))],
             text: getComplexText(this.complexFn, val, r, i, math.mod(val), math.arg(val)),
             obj: this.getPlane(inter),
         };
